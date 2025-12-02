@@ -1,0 +1,19 @@
+<resources>
+    <string name="register_subtitle">RotApp</string>
+    <string name="register_title">Conectamos aprendices, mentores y oportunidades</string>
+    <!-- Textos pantalla Acerca de -->
+    <string name="about_screen_title">Acerca de</string>
+    <string name="about_app_name">RotApp</string>
+    <string name="about_description">RotApp ayuda a equipos con turnos rotativos a planificar y comunicar horarios de forma eficiente.</string>
+    <string name="about_developed_by">Desarrollado por</string>
+    <string name="about_developer_name">Dufray Manquillo</string>
+    <string name="about_version">Versión 1.0.0</string>
+    <!-- Textos pantalla Login -->
+    <string name="login_title">Bienvenido a RotApp</string>
+    <string name="login_email_hint">Correo</string>
+    <string name="login_password_hint">Contraseña</string>
+    <string name="login_button">Login</string>
+    <string name="login_forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="login_error_invalid_credentials">Credenciales inválidas</string>
+    <string name="login_error_close">Cerrar</string>
+</resources>
