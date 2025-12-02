@@ -19,18 +19,23 @@ class FakeUserRepository : UserRepository {
 
     override suspend fun validateCredentials(email: String, password: String): Boolean {
         delay(400)
-        val user = users.firstOrNull { it.email == email }
-        val success = user != null && password.isNotBlank()
-        if (success) activeUser.value = user
+        val user = users.firstOrNull { it.email == email && it.password == password }
+        val success = user != null
+        if (success) {
+            val updated = user!!.copy(isActive = true)
+            updateUserCache(updated)
+            activeUser.value = updated
+        }
         return success
     }
 
     override suspend fun registerUser(fullName: String, email: String, password: String): User {
         delay(600)
-        val user = User.fake(fullName = fullName, email = email, role = null)
-        users.add(user)
-        activeUser.value = user
-        return user
+        val user = User.fake(fullName = fullName, email = email, password = password, role = null)
+        val active = user.copy(isActive = true)
+        updateUserCache(active)
+        activeUser.value = active
+        return active
     }
 
     override suspend fun updateUserRole(userId: Long, role: UserRole) {
@@ -39,6 +44,24 @@ class FakeUserRepository : UserRepository {
             val updated = users[index].copy(role = role)
             users[index] = updated
             if (activeUser.value?.id == userId) activeUser.value = updated
+        }
+    }
+
+    override suspend fun logout() {
+        delay(200)
+        val current = activeUser.value
+        if (current != null) {
+            updateUserCache(current.copy(isActive = false))
+        }
+        activeUser.value = null
+    }
+
+    private fun updateUserCache(user: User) {
+        val index = users.indexOfFirst { it.id == user.id }
+        if (index >= 0) {
+            users[index] = user
+        } else {
+            users.add(user)
         }
     }
 }

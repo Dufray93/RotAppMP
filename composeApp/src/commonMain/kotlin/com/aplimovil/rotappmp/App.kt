@@ -12,7 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.aplimovil.rotappmp.di.AppContainer
-import com.aplimovil.rotappmp.di.DefaultAppContainer
 import com.aplimovil.rotappmp.navigation.RotAppNavigator
 import com.aplimovil.rotappmp.navigation.RotAppRoute
 import com.aplimovil.rotappmp.ui.about.AboutScreen
@@ -30,7 +29,7 @@ import com.aplimovil.rotappmp.ui.welcome.WelcomeScreen
 @Composable
 fun App(
     appNavigator: RotAppNavigator = remember { RotAppNavigator() },
-    appContainer: AppContainer = remember { DefaultAppContainer() },
+    appContainer: AppContainer,
 ) {
     MaterialTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {

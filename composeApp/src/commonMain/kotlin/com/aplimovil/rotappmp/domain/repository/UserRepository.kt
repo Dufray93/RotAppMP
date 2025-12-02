@@ -16,5 +16,7 @@ interface UserRepository {
     suspend fun registerUser(fullName: String, email: String, password: String): User
 
     suspend fun updateUserRole(userId: Long, role: UserRole)
+
+    suspend fun logout()
 }
 

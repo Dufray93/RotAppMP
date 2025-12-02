@@ -1,7 +1,8 @@
 package com.aplimovil.rotappmp.di
 
-import com.aplimovil.rotappmp.data.repository.FakeCompanyRepository
-import com.aplimovil.rotappmp.data.repository.FakeUserRepository
+import com.aplimovil.rotappmp.data.local.LocalStorage
+import com.aplimovil.rotappmp.data.repository.CompanyRepositoryImpl
+import com.aplimovil.rotappmp.data.repository.UserRepositoryImpl
 import com.aplimovil.rotappmp.domain.repository.CompanyRepository
 import com.aplimovil.rotappmp.domain.repository.UserRepository
 
@@ -11,8 +12,10 @@ interface AppContainer {
     val companyRepository: CompanyRepository
 }
 
-class DefaultAppContainer : AppContainer {
-    override val userRepository: UserRepository = FakeUserRepository()
-    override val companyRepository: CompanyRepository = FakeCompanyRepository()
-}
+class DefaultAppContainer(
+    private val storage: LocalStorage = LocalStorage(),
+) : AppContainer {
 
+    override val userRepository: UserRepository = UserRepositoryImpl(storage)
+    override val companyRepository: CompanyRepository = CompanyRepositoryImpl(storage)
+}
