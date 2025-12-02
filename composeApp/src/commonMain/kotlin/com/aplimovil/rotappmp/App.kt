@@ -11,21 +11,39 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.aplimovil.rotappmp.di.AppContainer
+import com.aplimovil.rotappmp.di.DefaultAppContainer
 import com.aplimovil.rotappmp.navigation.RotAppNavigator
 import com.aplimovil.rotappmp.navigation.RotAppRoute
 import com.aplimovil.rotappmp.ui.about.AboutScreen
+import com.aplimovil.rotappmp.ui.createcompany.CreateCompanyScreen
+import com.aplimovil.rotappmp.ui.createcompany.CreateCompanyViewModel
 import com.aplimovil.rotappmp.ui.login.LoginScreen
 import com.aplimovil.rotappmp.ui.login.LoginViewModel
+import com.aplimovil.rotappmp.ui.register.RegisterScreen
+import com.aplimovil.rotappmp.ui.register.RegisterViewModel
+import com.aplimovil.rotappmp.ui.roleselection.RoleSelectionScreen
+import com.aplimovil.rotappmp.ui.roleselection.RoleSelectionViewModel
+import com.aplimovil.rotappmp.ui.roleselection.RoleOption
 import com.aplimovil.rotappmp.ui.welcome.WelcomeScreen
 
 @Composable
-fun App(appNavigator: RotAppNavigator = remember { RotAppNavigator() }) {
+fun App(
+    appNavigator: RotAppNavigator = remember { RotAppNavigator() },
+    appContainer: AppContainer = remember { DefaultAppContainer() },
+) {
     MaterialTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
             val stack by appNavigator.backstack.collectAsState()
             val destination = stack.last()
-            val loginViewModel = remember { LoginViewModel() }
+            val loginViewModel = remember { LoginViewModel(appContainer.userRepository) }
             val loginState by loginViewModel.uiState.collectAsState()
+            val registerViewModel = remember { RegisterViewModel(appContainer.userRepository) }
+            val registerState by registerViewModel.uiState.collectAsState()
+            val roleSelectionViewModel = remember { RoleSelectionViewModel(appContainer.userRepository) }
+            val roleSelectionState by roleSelectionViewModel.uiState.collectAsState()
+            val createCompanyViewModel = remember { CreateCompanyViewModel(appContainer.companyRepository, appContainer.userRepository) }
+            val createCompanyState by createCompanyViewModel.uiState.collectAsState()
 
             when (destination) {
                 RotAppRoute.Welcome -> WelcomeScreen(
@@ -42,9 +60,35 @@ fun App(appNavigator: RotAppNavigator = remember { RotAppNavigator() }) {
                     onLoginClick = loginViewModel::onLoginRequested,
                     onForgotPasswordClick = loginViewModel::onForgotPasswordRequested,
                 )
-                RotAppRoute.Register -> PlaceholderScreen("Pantalla Registro en construcción")
-                RotAppRoute.RoleSelection -> PlaceholderScreen("Selección de rol en construcción")
-                RotAppRoute.CreateCompany -> PlaceholderScreen("Crear empresa en construcción")
+                RotAppRoute.Register -> RegisterScreen(
+                    state = registerState,
+                    onBackClick = { if (!appNavigator.pop()) appNavigator.replaceAll(RotAppRoute.Welcome) },
+                    onFullNameChange = registerViewModel::onFullNameChange,
+                    onEmailChange = registerViewModel::onEmailChange,
+                    onPasswordChange = registerViewModel::onPasswordChange,
+                    onConfirmPasswordChange = registerViewModel::onConfirmPasswordChange,
+                    onRegisterClick = registerViewModel::onRegisterRequested,
+                    events = registerViewModel.events,
+                    onNavigateToRoleSelection = { appNavigator.navigate(RotAppRoute.RoleSelection) },
+                )
+                RotAppRoute.RoleSelection -> RoleSelectionScreen(
+                    state = roleSelectionState,
+                    onRoleSelected = roleSelectionViewModel::onRoleSelected,
+                    onContinue = roleSelectionViewModel::onContinue,
+                    onBackClick = { if (!appNavigator.pop()) appNavigator.replaceAll(RotAppRoute.Welcome) },
+                    events = roleSelectionViewModel.events,
+                    onNavigateNext = { appNavigator.navigate(RotAppRoute.CreateCompany) },
+                )
+                RotAppRoute.CreateCompany -> CreateCompanyScreen(
+                    state = createCompanyState,
+                    onNameChange = createCompanyViewModel::onNameChange,
+                    onCategorySelected = createCompanyViewModel::onCategorySelected,
+                    onEmployeesChange = createCompanyViewModel::onEmployeesChange,
+                    onSubmit = createCompanyViewModel::onSubmit,
+                    onBackClick = { if (!appNavigator.pop()) appNavigator.replaceAll(RotAppRoute.Welcome) },
+                    events = createCompanyViewModel.events,
+                    onNavigateHome = { appNavigator.replaceAll(RotAppRoute.Welcome) },
+                )
                 RotAppRoute.About -> AboutScreen(
                     onBackClick = { if (!appNavigator.pop()) appNavigator.replaceAll(RotAppRoute.Welcome) },
                 )
