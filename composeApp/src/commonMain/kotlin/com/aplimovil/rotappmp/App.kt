@@ -6,64 +6,50 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.aplimovil.rotappmp.navigation.RotAppDestination
+import com.aplimovil.rotappmp.navigation.RotAppNavigator
+import com.aplimovil.rotappmp.navigation.RotAppRoute
 import com.aplimovil.rotappmp.ui.about.AboutScreen
 import com.aplimovil.rotappmp.ui.login.LoginScreen
+import com.aplimovil.rotappmp.ui.login.LoginViewModel
 import com.aplimovil.rotappmp.ui.welcome.WelcomeScreen
 
 @Composable
-fun App(appNavigator: AppNavigator = remember { AppNavigator() }) {
+fun App(appNavigator: RotAppNavigator = remember { RotAppNavigator() }) {
     MaterialTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-            var loginEmail by remember { mutableStateOf("") }
-            var loginPassword by remember { mutableStateOf("") }
+            val stack by appNavigator.backstack.collectAsState()
+            val destination = stack.last()
+            val loginViewModel = remember { LoginViewModel() }
+            val loginState by loginViewModel.uiState.collectAsState()
 
-            when (appNavigator.currentDestination) {
-                RotAppDestination.Welcome -> WelcomeScreen(
-                    onLoginClick = { appNavigator.navigate(RotAppDestination.Login) },
-                    onRegisterClick = { appNavigator.navigate(RotAppDestination.Register) },
-                    onAboutClick = { appNavigator.navigate(RotAppDestination.About) },
+            when (destination) {
+                RotAppRoute.Welcome -> WelcomeScreen(
+                    onLoginClick = { appNavigator.navigate(RotAppRoute.Login) },
+                    onRegisterClick = { appNavigator.navigate(RotAppRoute.Register) },
+                    onAboutClick = { appNavigator.navigate(RotAppRoute.About) },
                 )
-                RotAppDestination.Login -> LoginScreen(
-                    email = loginEmail,
-                    password = loginPassword,
-                    onBackClick = { appNavigator.navigate(RotAppDestination.Welcome) },
-                    onEmailChange = { loginEmail = it },
-                    onPasswordChange = { loginPassword = it },
-                    onLoginClick = {
-                        // TODO: reemplazar con autenticación real
-                    },
-                    onForgotPasswordClick = {
-                        // TODO: navegar a flujo de recuperación
-                    },
+                RotAppRoute.Login -> LoginScreen(
+                    email = loginState.email,
+                    password = loginState.password,
+                    onBackClick = { if (!appNavigator.pop()) appNavigator.replaceAll(RotAppRoute.Welcome) },
+                    onEmailChange = loginViewModel::onEmailChange,
+                    onPasswordChange = loginViewModel::onPasswordChange,
+                    onLoginClick = loginViewModel::onLoginRequested,
+                    onForgotPasswordClick = loginViewModel::onForgotPasswordRequested,
                 )
-                RotAppDestination.Register -> PlaceholderScreen("Pantalla Registro en construcción")
-                RotAppDestination.RoleSelection -> PlaceholderScreen("Selección de rol en construcción")
-                RotAppDestination.CreateCompany -> PlaceholderScreen("Crear empresa en construcción")
-                RotAppDestination.About -> AboutScreen(
-                    onBackClick = { appNavigator.navigate(RotAppDestination.Welcome) },
+                RotAppRoute.Register -> PlaceholderScreen("Pantalla Registro en construcción")
+                RotAppRoute.RoleSelection -> PlaceholderScreen("Selección de rol en construcción")
+                RotAppRoute.CreateCompany -> PlaceholderScreen("Crear empresa en construcción")
+                RotAppRoute.About -> AboutScreen(
+                    onBackClick = { if (!appNavigator.pop()) appNavigator.replaceAll(RotAppRoute.Welcome) },
                 )
             }
         }
-    }
-}
-
-class AppNavigator(initial: RotAppDestination = RotAppDestination.Welcome) {
-    var currentDestination by mutableStateOf(initial)
-        private set
-
-    fun navigate(destination: RotAppDestination) {
-        currentDestination = destination
-    }
-
-    fun popTo(destination: RotAppDestination) {
-        currentDestination = destination
     }
 }
 
