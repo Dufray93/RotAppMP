@@ -4,7 +4,7 @@ import com.aplimovil.rotappmp.domain.model.User
 import com.aplimovil.rotappmp.domain.model.UserRole
 import kotlinx.coroutines.flow.Flow
 
-/** Contrato de acceso a usuarios, independiente de la plataforma. */
+/** Contrato multiplataforma que expone la persistencia de usuarios y operaciones de sesión. */
 interface UserRepository {
     /** Flujo reactivo con el usuario autenticado actualmente (si existe). */
     val activeUserStream: Flow<User?>

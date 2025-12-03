@@ -41,6 +41,9 @@ private val RoleText = Color(0xFF4C2D27)
 private val RoleCardBorder = Color(0xFFE4BDB7)
 private val RoleSelectedBackground = Color(0xFFF4D7D1)
 
+/**
+ * Pantalla multiplataforma de selección de rol. Observa el estado del ViewModel y propaga interacciones mediante lambdas.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RoleSelectionScreen(

@@ -2,7 +2,7 @@ package com.aplimovil.rotappmp.domain.model
 
 import kotlinx.serialization.Serializable
 
-/** Categorías generales de empresas soportadas en RotApp. */
+/** Categorías generales de empresa disponibles durante el registro. */
 @Serializable
 enum class CompanyCategory(val id: String, val displayName: String) {
     GENERAL(id = "general", displayName = "General"),

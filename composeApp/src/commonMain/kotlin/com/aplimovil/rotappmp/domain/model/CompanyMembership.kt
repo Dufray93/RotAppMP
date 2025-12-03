@@ -1,6 +1,6 @@
 package com.aplimovil.rotappmp.domain.model
 
-/** Relación entre un usuario y una empresa con el rol asignado. */
+/** Asocia un [UserRole] a un usuario dentro de una empresa específica. */
 data class CompanyMembership(
     val userId: Long,
     val companyId: Long,

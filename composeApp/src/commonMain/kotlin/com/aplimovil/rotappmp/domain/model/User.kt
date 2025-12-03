@@ -3,6 +3,7 @@ package com.aplimovil.rotappmp.domain.model
 import kotlinx.serialization.Serializable
 import kotlin.random.Random
 
+/** Modelo de usuario compartido por todos los targets. */
 @Serializable
 data class User(
     val id: Long,

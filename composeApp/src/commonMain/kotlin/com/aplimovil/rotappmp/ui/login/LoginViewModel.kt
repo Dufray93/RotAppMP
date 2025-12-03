@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-/** Estado observable de la pantalla de login. */
+/** Estado observable consumido por `LoginScreen` en todos los targets. */
 data class LoginUiState(
     val email: String = "",
     val password: String = "",
@@ -18,7 +18,11 @@ data class LoginUiState(
     val errorMessage: String? = null,
 )
 
-/** ViewModel simple basado en coroutines compartidas para todos los targets. */
+/**
+ * ViewModel compartido que valida credenciales y actualiza el [UserRepository].
+ *
+ * Se ejecuta en un `Dispatchers.Default` para que Android, iOS, JVM y Web reutilicen la misma lógica.
+ */
 class LoginViewModel(private val userRepository: UserRepository) {
     private val job = SupervisorJob()
     private val scope: CoroutineScope = CoroutineScope(job + Dispatchers.Default)

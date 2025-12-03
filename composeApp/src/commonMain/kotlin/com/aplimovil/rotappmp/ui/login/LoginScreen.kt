@@ -78,16 +78,8 @@ private const val LoginHeroZoom = 1.45f
 private val LoginHeroVerticalOffset = (-35).dp
 
 /**
- * Pantalla de inicio de sesión que replica el mockup de Android y se adapta al resto de targets KMP.
- *
- * @param modifier Permite que el contenedor padre ubique la pantalla.
- * @param email Valor actual del campo de correo.
- * @param password Valor actual del campo de contraseña.
- * @param onBackClick Se ejecuta al pulsar el botón de regreso.
- * @param onEmailChange Emite el texto actualizado del correo.
- * @param onPasswordChange Emite el texto actualizado de la contraseña.
- * @param onLoginClick Acción principal al presionar "Login".
- * @param onForgotPasswordClick Acción secundaria para "Olvidé mi contraseña".
+ * Pantalla de inicio de sesión multiplataforma. Recibe el estado del `LoginViewModel` y reenvía las
+ * acciones de usuario mediante lambdas para mantener la lógica fuera del composable.
  */
 @OptIn(ExperimentalResourceApi::class, ExperimentalMaterial3Api::class)
 @Composable

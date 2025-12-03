@@ -46,6 +46,10 @@ private val CompanyCardColor = Color(0xFFF6DCD7)
 private val CompanyPrimary = Color(0xFF8C3A33)
 private val CompanyText = Color(0xFF4C2D27)
 
+/**
+ * UI compartida para el flujo de creación de empresa. Consume [CreateCompanyUiState] y envía las
+ * interacciones de regreso al ViewModel mediante lambdas para mantener el código de plataforma liviano.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateCompanyScreen(
@@ -59,7 +63,7 @@ fun CreateCompanyScreen(
     onNavigateHome: () -> Unit,
 ) {
     LaunchedEffect(events) {
-        events?.collectLatest { event ->
+        events?.collect { event ->
             if (event is CreateCompanyEvent.NavigateHome) onNavigateHome()
         }
     }

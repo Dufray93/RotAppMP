@@ -4,7 +4,7 @@ import com.aplimovil.rotappmp.domain.model.Company
 import com.aplimovil.rotappmp.domain.model.CompanyCategory
 import kotlinx.coroutines.flow.Flow
 
-/** Contrato de empresas y membresías. */
+/** Contrato que la UI y los ViewModels usan para gestionar empresas sin importar la plataforma. */
 interface CompanyRepository {
     fun observeCompaniesForUser(userId: Long): Flow<List<Company>>
 

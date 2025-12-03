@@ -6,12 +6,13 @@ import com.aplimovil.rotappmp.data.repository.UserRepositoryImpl
 import com.aplimovil.rotappmp.domain.repository.CompanyRepository
 import com.aplimovil.rotappmp.domain.repository.UserRepository
 
-/** Contenedor de dependencias simple para KMP. */
+/** Punto de entrada de dependencias que separa la capa de datos concreta de la UI. */
 interface AppContainer {
     val userRepository: UserRepository
     val companyRepository: CompanyRepository
 }
 
+/** Implementación por defecto que comparte una única instancia de [LocalStorage] entre los repositorios. */
 class DefaultAppContainer(
     private val storage: LocalStorage = LocalStorage(),
 ) : AppContainer {

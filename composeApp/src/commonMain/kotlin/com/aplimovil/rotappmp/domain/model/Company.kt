@@ -3,7 +3,7 @@ package com.aplimovil.rotappmp.domain.model
 import kotlinx.serialization.Serializable
 import kotlin.random.Random
 
-/** Representa los datos principales de una empresa administrada en RotApp. */
+/** Represents the key data of a company managed inside RotApp. */
 @Serializable
 data class Company(
     val id: Long,

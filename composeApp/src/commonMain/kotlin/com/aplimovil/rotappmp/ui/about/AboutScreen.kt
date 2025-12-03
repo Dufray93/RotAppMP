@@ -39,6 +39,7 @@ import rotappmp.composeapp.generated.resources.about_screen_title
 import rotappmp.composeapp.generated.resources.about_version
 import rotappmp.composeapp.generated.resources.rotapp_logo
 
+/** Pantalla informativa estática reutilizada en todas las plataformas. */
 @OptIn(ExperimentalResourceApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AboutScreen(

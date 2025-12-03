@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlin.random.Random
 
+/** Repositorio concreto que gestiona la persistencia de empresas mediante [LocalStorage]. */
 class CompanyRepositoryImpl(private val storage: LocalStorage) : CompanyRepository {
 
     override fun observeCompaniesForUser(userId: Long): Flow<List<Company>> = flow {

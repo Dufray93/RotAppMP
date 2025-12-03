@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+/** Estado UI compartido por la pantalla de creación de empresa en todos los targets. */
 data class CreateCompanyUiState(
     val name: String = "",
     val category: CompanyCategory = CompanyCategory.GENERAL,
@@ -23,10 +24,12 @@ data class CreateCompanyUiState(
     val errorMessage: String? = null,
 )
 
+/** Eventos puntuales que la UI observa (por ejemplo, navegación). */
 sealed interface CreateCompanyEvent {
     data object NavigateHome : CreateCompanyEvent
 }
 
+/** Gestiona la creación de empresas coordinando los repositorios de usuario y empresa. */
 class CreateCompanyViewModel(
     private val companyRepository: CompanyRepository,
     private val userRepository: UserRepository,

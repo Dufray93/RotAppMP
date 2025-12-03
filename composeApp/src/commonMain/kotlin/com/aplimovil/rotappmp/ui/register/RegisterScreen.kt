@@ -63,6 +63,10 @@ private val RegisterHeroHeight = 340.dp
 private val RegisterCardTopOverlap = 260.dp
 private val RegisterLogoOffset = (-100).dp
 
+/**
+ * UI compartida para el registro: dibuja el formulario, muestra validaciones y entrega los cambios
+ * de estado al `RegisterViewModel` multiplataforma.
+ */
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
 @Composable
 fun RegisterScreen(

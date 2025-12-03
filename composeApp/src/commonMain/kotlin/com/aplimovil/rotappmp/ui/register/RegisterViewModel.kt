@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-/** Estado observable para la pantalla de registro. */
+/** Estado UI expuesto a los observadores de `RegisterScreen`. */
 data class RegisterUiState(
     val fullName: String = "",
     val email: String = "",
@@ -28,7 +28,10 @@ sealed interface RegisterEvent {
     data object NavigateToRoleSelection : RegisterEvent
 }
 
-/** ViewModel multiplataforma basado en MutableStateFlow. */
+/**
+ * ViewModel compartido del flujo de registro. Valida entradas, persiste el nuevo usuario y emite
+ * eventos de navegación para mantener la UI sencilla.
+ */
 class RegisterViewModel(private val userRepository: UserRepository) {
     private val job = SupervisorJob()
     private val scope = CoroutineScope(job + Dispatchers.Default)

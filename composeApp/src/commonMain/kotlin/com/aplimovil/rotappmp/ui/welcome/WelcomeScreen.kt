@@ -42,6 +42,7 @@ import rotappmp.composeapp.generated.resources.rotapp_logo
 import rotappmp.composeapp.generated.resources.register_subtitle
 import rotappmp.composeapp.generated.resources.register_title
 
+/** Pantalla de bienvenida compartida; delega la navegación mediante lambdas. */
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun WelcomeScreen(

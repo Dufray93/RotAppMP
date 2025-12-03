@@ -23,9 +23,14 @@ import com.aplimovil.rotappmp.ui.register.RegisterScreen
 import com.aplimovil.rotappmp.ui.register.RegisterViewModel
 import com.aplimovil.rotappmp.ui.roleselection.RoleSelectionScreen
 import com.aplimovil.rotappmp.ui.roleselection.RoleSelectionViewModel
-import com.aplimovil.rotappmp.ui.roleselection.RoleOption
 import com.aplimovil.rotappmp.ui.welcome.WelcomeScreen
 
+/**
+ * Composable raíz que conecta viewmodels, navegación y pantallas para todos los targets.
+ *
+ * @param appNavigator pila en memoria compartida entre plataformas; por defecto crea una instancia por composición.
+ * @param appContainer punto de entrada de dependencias que expone los repositorios usados por los viewmodels.
+ */
 @Composable
 fun App(
     appNavigator: RotAppNavigator = remember { RotAppNavigator() },

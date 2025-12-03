@@ -15,20 +15,21 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-/** Opciones disponibles para seleccionar el rol en RotApp. */
+/** Opciones disponibles dentro del flujo de selección de rol. */
 enum class RoleOption { ADMIN, COLLABORATOR }
 
-/** Estado observable de la pantalla de selección de rol. */
+/** Estado UI que respalda la pantalla de selección de rol. */
 data class RoleSelectionUiState(
     val selectedRole: RoleOption? = null,
     val errorMessage: String? = null,
 )
 
+/** Eventos puntuales emitidos por el ViewModel de selección de rol. */
 sealed interface RoleSelectionEvent {
     data object NavigateNext : RoleSelectionEvent
 }
 
-/** ViewModel multiplataforma para manejar la selección y confirmación del rol. */
+/** ViewModel compartido que escucha el usuario activo y persiste los cambios de rol. */
 class RoleSelectionViewModel(private val userRepository: UserRepository) {
     private val job = SupervisorJob()
     private val scope = CoroutineScope(job + Dispatchers.Default)

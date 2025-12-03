@@ -7,6 +7,9 @@ import com.aplimovil.rotappmp.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
 import kotlin.random.Random
 
+/**
+ * Persiste entidades `User` usando [LocalStorage], centralizando las reglas de negocio en KMP.
+ */
 class UserRepositoryImpl(private val storage: LocalStorage) : UserRepository {
 
     override val activeUserStream: Flow<User?> = storage.activeUserFlow
